@@ -16,13 +16,13 @@ type AppState = {
 export class App extends React.Component<{}, AppState> {
   nameTimerId?: number;
 
-  contextHandler = (event: MouseEvent) => {
+  handleContextMenu = (event: MouseEvent) => {
     event.preventDefault(); // not to show the context menu
 
     this.setState({ hasClock: false });
   };
 
-  clickHandler = () => {
+  handleClick = () => {
     this.setState({ hasClock: true });
   };
 
@@ -37,17 +37,18 @@ export class App extends React.Component<{}, AppState> {
       this.setState({ clockName: getRandomName() });
     }, 3300);
 
-    document.addEventListener('contextmenu', this.contextHandler);
-    document.addEventListener('click', this.clickHandler);
+    document.addEventListener('contextmenu', this.handleContextMenu);
+    document.addEventListener('click', this.handleClick);
   }
 
   componentWillUnmount() {
-    if (this.nameTimerId) {
-      clearInterval(this.nameTimerId);
+    if (this.nameTimerId !== undefined) {
+      window.clearInterval(this.nameTimerId);
+      this.nameTimerId = undefined;
     }
 
-    document.removeEventListener('contextmenu', this.contextHandler);
-    document.removeEventListener('click', this.clickHandler);
+    document.removeEventListener('contextmenu', this.handleContextMenu);
+    document.removeEventListener('click', this.handleClick);
   }
 
   componentDidUpdate(): void {
