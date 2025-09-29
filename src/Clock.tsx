@@ -15,7 +15,6 @@ export class Clock extends React.Component<Props, State> {
     time: new Date(),
   };
 
-
   componentDidMount() {
     // start interval which updates time and prints it every second
     this.timerId = window.setInterval(() => {
